@@ -1,90 +1,107 @@
-import './style.css'
+import './style.css';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-import * as THREE from 'three'
+// Setup
 
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+const scene = new THREE.Scene();
 
-const scene = new THREE.Scene()
-
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector('#bg')
-})
+  canvas: document.querySelector('#bg'),
+});
 
-renderer.setPixelRatio( window.devicePixelRatio)
-renderer.setSize( window.innerWidth, window.innerHeight)
-
-camera.position.setZ(30)
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+camera.position.setZ(30);
 camera.position.setX(-3);
 
+renderer.render(scene, camera);
 
-renderer.render( scene, camera)
+// Torus
 
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100)
-const material = new THREE.MeshStandardMaterial({color: 0xFF6347})
-const torus = new THREE.Mesh(geometry, material)
+// const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+// const material = new THREE.MeshStandardMaterial({ color: 0xff6347 });
+// const torus = new THREE.Mesh(geometry, material);
 
-scene.add(torus)
+// scene.add(torus);
 
-const pointLight = new THREE.PointLight(0xffffff)
-pointLight.position.set(20,0,0)
+// Lights
 
-const ambientLight = new THREE.AmbientLight(0xffffff)
-scene.add(pointLight, ambientLight)
+const pointLight = new THREE.PointLight(0xffffff);
+pointLight.position.set(5, 5, 5);
 
-const controls = new OrbitControls(camera, renderer.domElement)
+const ambientLight = new THREE.AmbientLight(0xffffff);
+scene.add(pointLight, ambientLight);
+
+// Helpers
+
+// const lightHelper = new THREE.PointLightHelper(pointLight)
+// const gridHelper = new THREE.GridHelper(200, 50);
+// scene.add(lightHelper, gridHelper)
+
+// const controls = new OrbitControls(camera, renderer.domElement);
 
 function addStar() {
-  const geometry = new THREE.SphereGeometry(0.25, 24, 24)
-  const material = new THREE.MeshStandardMaterial({color: 0xffffff})
-  const star = new THREE.Mesh(geometry, material)
+  const geometry = new THREE.SphereGeometry(0.25, 24, 24);
+  const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  const star = new THREE.Mesh(geometry, material);
 
-  const [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100))
+  const [x, y, z] = Array(3)
+    .fill()
+    .map(() => THREE.MathUtils.randFloatSpread(100));
 
-  star.position.set(x,y,z)
-  scene.add(star)
+  star.position.set(x, y, z);
+  scene.add(star);
 }
 
-Array(200).fill().forEach(addStar)
+Array(200).fill().forEach(addStar);
 
-const spaceTexture = new THREE.TextureLoader().load('space.jpg')
-scene.background = spaceTexture
+// Background
 
-const williamTexture = new THREE.TextureLoader().load('william.png')
+// const spaceTexture = new THREE.TextureLoader().load('space.jpg');
+// scene.background = spaceTexture;
 
-const william = new THREE.Mesh(
-  new THREE.BoxGeometry(3,3,3),
-  new THREE.MeshBasicMaterial({map:williamTexture})
-)
+// Avatar
 
-const earthTexture = new THREE.TextureLoader().load('earth.jpeg')
-const normalTexture = new THREE.TextureLoader().load('normal.png')
+const williamTexture = new THREE.TextureLoader().load('william.jpeg');
 
-const earth = new THREE.Mesh(
-  new THREE.SphereGeometry(3,32,32),
+const william = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshBasicMaterial({ map: williamTexture }));
+
+scene.add(william);
+
+// Sphere
+
+const sphereTexture = new THREE.TextureLoader().load('william.jpeg');
+const normalTexture = new THREE.TextureLoader().load('normal.jpg');
+
+const sphere = new THREE.Mesh(
+  new THREE.SphereGeometry(3, 32, 32),
   new THREE.MeshStandardMaterial({
-    map: earthTexture,
-    normalMap: normalTexture
+    map: sphereTexture,
+    normalMap: normalTexture,
   })
-)
+);
 
-earth.position.z = 30
-earth.position.setX(-10)
+scene.add(sphere);
 
-william.position.z = -5;
+sphere.position.z = 30;
+sphere.position.setX(-10);
+
+william.position.z = -2;
 william.position.x = 2;
 
-scene.add(william, earth)
+// Scroll Animation
 
 function moveCamera() {
   const t = document.body.getBoundingClientRect().top;
-  earth.rotation.x += 0.05;
-  earth.rotation.y += 0.075;
-  earth.rotation.z += 0.05;
+  // sphere.rotation.x += 0.05;
+  sphere.rotation.y += 0.075;
+  // sphere.rotation.z += 0.05;
 
   william.rotation.y += 0.01;
-  william.rotation.z += 0.01;
+  // william.rotation.z += 0.01;
 
   camera.position.z = t * -0.01;
   camera.position.x = t * -0.0002;
@@ -94,16 +111,22 @@ function moveCamera() {
 document.body.onscroll = moveCamera;
 moveCamera();
 
+// Animation Loop
+
 function animate() {
-  requestAnimationFrame(animate)
+  requestAnimationFrame(animate);
 
-  torus.rotation.x += 0.01
-  torus.rotation.y += 0.005
-  torus.rotation.z += 0.01
+  // torus.rotation.x += 0.01;
+  // torus.rotation.y += 0.005;
+  // torus.rotation.z += 0.01;
 
-  controls.update()
+  sphere.rotation.y += 0.005;
+  william.rotation.y += 0.005;
 
-  renderer.render( scene, camera)
+
+  // controls.update();
+
+  renderer.render(scene, camera);
 }
 
-animate()
+animate();
