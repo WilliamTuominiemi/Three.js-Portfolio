@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import * as fontJson  from 'three/examples/fonts/helvetiker_regular.typeface.json';
 const font = new THREE.Font( fontJson );
 
+import imgUrl from './william.jpeg'
 
 // Setup
 
@@ -74,7 +75,7 @@ Array(5).fill().forEach(addStar);
 
 // Avatar
 
-const williamTexture = new THREE.TextureLoader().load('william.jpeg');
+const williamTexture = new THREE.TextureLoader().load('/assets/william.ab98960b.jpeg');
 
 const william = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshBasicMaterial({ map: williamTexture }));
 
@@ -82,14 +83,13 @@ scene.add(william);
 
 // Sphere
 
-const sphereTexture = new THREE.TextureLoader().load('william.jpeg');
-const normalTexture = new THREE.TextureLoader().load('normal.png');
+const sphereTexture = new THREE.TextureLoader().load('/assets/william.ab98960b.jpeg');
+// const normalTexture = new THREE.TextureLoader().load('normal.png');
 
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(3, 32, 32),
   new THREE.MeshStandardMaterial({
-    map: sphereTexture,
-    normalMap: normalTexture,
+    map: sphereTexture
   })
 );
 
