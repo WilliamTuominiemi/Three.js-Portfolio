@@ -47,6 +47,47 @@ scene.add(ambientLight);
 
 // const controls = new OrbitControls(camera, renderer.domElement);
 
+// Mouse
+let raycaster = new THREE.Raycaster();
+let mouse = new THREE.Vector2()
+
+document.addEventListener('mousemove', onDocumentMouseMove, false);
+window.addEventListener('resize', onWindowResize, false);
+document.addEventListener('mousedown', onMouseDown, false);
+
+function onDocumentMouseMove(event) {
+  event.preventDefault();
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function manageRaycasterIntersections(scene, camera) {
+  camera.updateMatrixWorld();
+  raycaster.setFromCamera(mouse, camera);
+  var intersects = raycaster.intersectObjects(scene.children);
+
+  if (intersects.length > 0) {
+
+  } 
+  else {
+
+  }
+}
+
+let objectRotation = 0.01
+
+function onMouseDown(event){
+  objectRotation = -objectRotation
+  console.log(objectRotation)
+//  customLog("mouse position: (" + mouse.x + ", "+ mouse.y + ")");
+}
+
 function addStar() {
   // const geometry = new THREE.SphereGeometry(0.25, 24, 24);
   const geometry = new THREE.TextGeometry( 'WILLIAM', {
@@ -120,6 +161,8 @@ function moveCamera() {
 document.body.onscroll = moveCamera;
 moveCamera();
 
+// const mouse;
+
 // Animation Loop
 
 function animate() {
@@ -129,8 +172,13 @@ function animate() {
   // torus.rotation.y += 0.005;
   // torus.rotation.z += 0.01;
 
-  sphere.rotation.y += 0.005;
-  william.rotation.y += 0.005;
+  sphere.rotation.y += objectRotation;
+  william.rotation.y += objectRotation;
+
+  // mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+  // mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+  // console.log(mouse)
 
 
   // controls.update();
