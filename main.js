@@ -173,7 +173,9 @@ function animate() {
   // torus.rotation.z += 0.01;
 
   sphere.rotation.y += objectRotation;
-  william.rotation.y += objectRotation;
+  
+  william.rotation.y = mouse.x
+  william.rotation.z = mouse.y
 
   // mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
   // mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
