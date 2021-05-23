@@ -147,10 +147,10 @@ sphere.position.x = 3;
 function moveCamera() {
   const t = document.body.getBoundingClientRect().top;
   // sphere.rotation.x += 0.05;
-  sphere.rotation.y += 0.075;
+  sphere.rotation.y += objectRotation;
   // sphere.rotation.z += 0.05;
 
-  william.rotation.y += 0.01;
+  // william.rotation.y += 0.01;
   // william.rotation.z += 0.01;
 
   camera.position.z = t * -0.01;
