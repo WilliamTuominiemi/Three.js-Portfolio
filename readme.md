@@ -1,5 +1,7 @@
 # Three.js Portfolio
 
+## About
+
 My portfolio made with three.js
 
 ## Installation
